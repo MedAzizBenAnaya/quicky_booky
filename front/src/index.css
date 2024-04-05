@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+
+:root {
+  --font-body-family: Assistant, sans-serif;
+  --font-body-style: normal;
+  --color-background: 255,255,255;
+  --color-foreground: 18,18,18;
+
+
+}
+
+.utility-bar--bottom-border{
+  border-bottom: 0.05rem solid
+  rgb(209, 209, 209)
+}
+
+.utility-bar {
+  height: 100%;
+  padding-top: 0.5em;
+  text-align: center;
+  padding-bottom: 0.5em;
+
+
+}
+
+
+span{
+  color: #707070;
+  font : 0.8em var(--font-body-family);
+  font-weight: var(--font-body-style);
+}
+
+
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.shaped-input {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.shaped-input:focus {
+  transform: scale(1.02); 
+  box-shadow: 0 0 8px #cbd5e1; 
+  outline: none;
+}
+
+
+button {
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #4B5563;
+  transform: translateY(-2px);
+}
+
+button:focus {
+  outline: none; 
+  kerning: 4px solid #93C5FD; 
+}
+
+
+.nav-link {
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  color: #707070; 
+  font: 1em var(--font-body-family);
+  font-weight: 400; 
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: #1F2937; /* Darker shade on hover/focus for contrast */
+  transform: translateY(-2px); /* Subtle lift effect on hover/focus */
+  outline: none; /* Removes the default outline */
+}
+
+/* Additional styles to maintain consistency with the form's design */
+nav {
+  background-color: #fff; /* White background for the navbar */
+  border-radius: 0.1rem; /* Optional: Rounded corners for the navbar */
+  border-color: #4B5563;
+  border-bottom: 0.05rem solid
+  rgb(209, 209, 209)
+}
+
+
+.navbar-brand {
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  cursor: pointer; 
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.3sem;
+}
+
+.navbar-brand:hover {
+  color: #1F2937;
+  transform: translateY(-2px); 
+}
+
+.hero-section {
+  
+  background-size:auto;
+
+  background-position: center;
+  background-position-y:-130px;
+  height: 48vh; 
+  display: flex;
+  flex-direction: column;
+
+
+
+}
+
+@keyframes load {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+
+
+
+@keyframes pulseText {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.pulse-text {
+
+  animation: pulseText ease-in-out infinite;
+  font-family: var(--font-body-family);
+  color: #4B5563;
+}
+
+.progress-transition {
+  transition: width 0.5s linear;
+}
+
+.about-section{
+  border-top: 0.05rem solid;
+  border-top-color: #4B5563;
+
+}

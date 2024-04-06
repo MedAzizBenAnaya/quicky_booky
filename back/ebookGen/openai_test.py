@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import os
 from generator import *
 
-
 load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
 
@@ -43,7 +42,6 @@ def make_ebook(title, topic, language, age, gender, extra_info):
         ]
     )
     reply_json = response.choices[0].message.content
-    print(reply_json)
 
     try:
         table_of_contents = json.loads(reply_json)
@@ -55,8 +53,8 @@ def make_ebook(title, topic, language, age, gender, extra_info):
 
     for chapter in table_of_contents.get("chapters", []):
 
-        chapter_title = chapter.get("title")
-        print(chapter_title)
+        chapter_title = chapter.get("chapter_title")
+        print( chapter_title )
 
         for subsection_title in chapter.get("subsections", []):  # Changed this line
             print(subsection_title)
@@ -81,11 +79,11 @@ def make_ebook(title, topic, language, age, gender, extra_info):
 
             subsection_content = response.choices[0].message.content
             chapters_contents.append(subsection_content)
-            print('done')
+            print('   finished with the current chapter')
 
-        print('finished with the subsection')
-        create_ebook("ebook", title, table_of_contents, chapters_contents, gender)
+        print('   finished with the subsection', '\n')
 
-    return pdf_path
+    print('\n', 'finished with the book')
 
+    return create_ebook("ebook", title, table_of_contents, chapters_contents, gender)
 

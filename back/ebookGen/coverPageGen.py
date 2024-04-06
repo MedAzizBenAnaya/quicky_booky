@@ -23,7 +23,7 @@ def convert_image_to_pdf(image_path, pdf_path):
     image.save(pdf_path, "PDF", resolution=300.0)
 
 
-def add_text_to_image(output_path, text, gender):
+def  add_text_to_image(output_path, text, gender):
     width_px = int((PAGE_WIDTH_CM / 2.54) * 300)
     height_px = int((PAGE_HEIGHT_CM / 2.54) * 300)
     if gender == "male":

@@ -6,10 +6,17 @@ from docx2pdf import convert
 import PyPDF2
 
 from coverPageGen import *
-
+from pathlib import Path
+import time
 
 img_doc_path = "coverDoc/cover.pdf"
 pdf_path = "pdf/myEbook.pdf"
+
+
+def generate_file_path():
+    current_time = time.strftime("%Y%m%d-%H%M%S")
+    file_name = f"ebook_{current_time}.pdf"
+    return f'generated_books/{file_name}'
 
 
 def combine_pdfs(pdf_path1, pdf_path2, output_path):
@@ -25,8 +32,6 @@ def combine_pdfs(pdf_path1, pdf_path2, output_path):
 
     with open(output_path, 'wb') as out_pdf_file:
         pdf_writer.write(out_pdf_file)
-
-
 
 
 def create_word_book(book_info, content_array, filename):
@@ -81,7 +86,7 @@ def create_word_book(book_info, content_array, filename):
 
     def add_description_page(doc, book_info):
         doc.add_paragraph('description', style='TOCHeadingStyle')
-        doc.add_paragraph(book_info['description'],style='ContentStyle')
+        doc.add_paragraph(book_info['description'], style='ContentStyle')
         doc.add_page_break()
 
     def add_table_of_contents(doc, book_info):
@@ -138,11 +143,11 @@ def create_word_book(book_info, content_array, filename):
     doc.save(doc_path)
     convert(doc_path, pdf_path)
 
+
 def create_ebook(filename, book_title, book_info, content_array, gender):
+    path = generate_file_path()
     add_text_to_image(RESIZED_COVER_PATH, book_title, gender)
     create_word_book(book_info, content_array, filename)
-    combine_pdfs(img_doc_path, pdf_path, pdf_path)
+    combine_pdfs(img_doc_path, pdf_path, path)
 
-
-
-
+    return path

@@ -4,7 +4,6 @@ from coverPageGen import add_text_to_image, RESIZED_COVER_PATH
 from openai_test import make_ebook
 from dotenv import load_dotenv
 
-
 import os
 
 from flask_pymongo import PyMongo
@@ -19,19 +18,21 @@ mongo = PyMongo(app)
 
 CORS(app)
 
-# Ensure the path is correctly pointing to where your PDF will be saved
-path_to_pdf = 'pdf/myEbook.pdf'
-# path = 'myEbook.pdf'
-
 preview_pic_path = 'refactoredImg/new.png'
 
 BOOKS_DIR = os.path.join(app.root_path, 'generated_books')
 if not os.path.exists(BOOKS_DIR):
     os.makedirs(BOOKS_DIR)
 
+data = {}
 
-def generate_book(title, topic, gender, age, additionalInfo):
-    return make_ebook(title, topic, "english", age, gender, additionalInfo)
+
+def printData():
+    print(data)
+
+
+def generate_book(title, topic, gender, age, additional_info):
+    return make_ebook(title, topic, "english", age, gender, additional_info)
 
 
 def add_text_to_image_and_return_path(title, gender):
@@ -39,14 +40,8 @@ def add_text_to_image_and_return_path(title, gender):
     return preview_pic_path
 
 
-def handle_generate_book(session_id):
-    data = request.json
-
-    title = data.get('title', '')  # Ensure key names match those used in the frontend
-    topic = data.get('topic', '')
-    gender = data.get('gender', '')
-    age = data.get('age', '')
-    additional_info = data.get('additionalInfo', '')
+def handle_generate_book(session_id, title, topic, gender, age, additional_info):
+    print('Book Title : ' + title)
 
     try:
         file_path = generate_book(title, topic, gender, age, additional_info)
@@ -117,11 +112,13 @@ def working():
 
 @app.route('/preview_cover', methods=['POST'])
 def preview_cover():
+    printData()
+    global data
     data = request.json
-
     title = data.get('title', '')
     gender = data.get('gender', '')
     preview_cover_path = add_text_to_image_and_return_path(title, gender)
+
     return send_file(preview_cover_path, mimetype='image/png')
 
 
@@ -132,6 +129,7 @@ YOUR_DOMAIN = 'http://localhost:3000'
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
+
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[
@@ -156,6 +154,7 @@ webhook_secret = os.getenv('WEBHOOK_SECRET')
 
 @app.route('/webhook', methods=['POST'])
 def stripe_webhook():
+    printData()
     payload = request.get_data(as_text=True)
     sig_header = request.headers.get('Stripe-Signature')
 
@@ -170,13 +169,21 @@ def stripe_webhook():
         print(e)
         return 'Invalid signature', 400
 
+    title = data.get('title', '')
+
+    print(title)
+    topic = data.get('topic', '')
+    gender = data.get('gender', '')
+    age = data.get('age', '')
+    additional_info = data.get('additionalInfo', '')
+
     # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
 
         print('Payment was successful. Session ID:', session.id)
 
-        handle_generate_book(session.id)
+        handle_generate_book(session.id, title, topic, gender, age, additional_info)
 
     return jsonify({'message': 'Success'}), 200
 

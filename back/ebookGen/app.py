@@ -1,8 +1,8 @@
-from flask import Flask, request, redirect, send_file, jsonify, session, send_from_directory
+from flask import Flask, request, send_file, jsonify, send_from_directory
 from flask_cors import CORS
 from coverPageGen import add_text_to_image, RESIZED_COVER_PATH
-from openai_test import make_ebook
-from dotenv import load_dotenv
+import asyncio
+from openaiGen import make_ebook
 
 import os
 
@@ -32,7 +32,7 @@ def printData():
 
 
 def generate_book(title, topic, gender, age, additional_info):
-    return make_ebook(title, topic, "english", age, gender, additional_info)
+    return asyncio.run( make_ebook(title, topic, "english", age, gender, additional_info, 5,3))
 
 
 def add_text_to_image_and_return_path(title, gender):

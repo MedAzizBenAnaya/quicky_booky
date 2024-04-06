@@ -10,22 +10,27 @@ import LoginPage from './loginForm';
 import RegisterForm from './RegistrationForm';
 import Dashboard from './Dashboard';
 import ContactForm from './ContactForm'
-
-
+import HomePage from './HomePage';
+import FeatureSection from './FeatureSection'
+import PricingSection from './PricingSection'
+import Footer from './Footer'
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Navbar />
+        <HomePage />
+        <FeatureSection/>
+        <PricingSection/>
+
         <Routes>
           <Route path="/" element={
             <>
-              <HeroSection />
               <div className="container mx-auto px-4">
               </div>
               <Dashboard/>
-              <About />
+              <Footer/>
             </>
           } />
           {/* Define the route for the LoginPage */}

@@ -29,9 +29,9 @@ def make_ebook(title, topic, language, age, gender, extra_info):
     ebook_prompt = (f"write an ebook named {title} in {language} language, it is about {topic}. "
                     f"Our target audience are {age} year old {gender} who {extra_info}. "
                     f"Create a comprehensive outline that has the number of Chapters and subsections with for this ebook, "
-                    f"which will have {n_chapters} chapters with {n_subsections} subsections each. with a full 200 words description of the book and a summery at the end"
+                    f"which will have {n_chapters} chapters with {n_subsections} subsections each. with a full 200 words description of the book and a summery at the end + sources for further reading page"
                     "Please provide it in JSON format that follows this style: "
-                    '{"ebook_title": "","target_audience": "","description": "","chapters": [ {"chapter_title": "chapter n : tile","subsections": [ "subsection" ]}], "summary": " "}'"")
+                    '{"ebook_title": "","target_audience": "","description": "","chapters": [ {"chapter_title": "chapter n : tile","subsections": [ "subsection" ]}], "summary": " ", "sources": " "}'"")
 
     response = client.chat.completions.create(
         model="gpt-4-0125-preview",
@@ -42,6 +42,8 @@ def make_ebook(title, topic, language, age, gender, extra_info):
         ]
     )
     reply_json = response.choices[0].message.content
+
+    print(reply_json)
 
     try:
         table_of_contents = json.loads(reply_json)
@@ -87,3 +89,5 @@ def make_ebook(title, topic, language, age, gender, extra_info):
 
     return create_ebook("ebook", title, table_of_contents, chapters_contents, gender)
 
+
+make_ebook('Punk', 'Puck culture', 'english',23,'male', '')

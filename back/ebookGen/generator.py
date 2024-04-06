@@ -127,7 +127,11 @@ def create_word_book(book_info, content_array, filename):
     def add_summary(doc, book_info):
         doc.add_paragraph('summary', style='TOCHeadingStyle')
         doc.add_paragraph(book_info['summary'], style='ContentStyle')
+        doc.add_page_break()
 
+    def add_sources(doc, book_info):
+        doc.add_paragraph('sources', style='TOCHeadingStyle')
+        doc.add_paragraph(book_info['sources'], style='ContentStyle')
     # Setup document
 
     setup_document_styles(doc)
@@ -137,6 +141,7 @@ def create_word_book(book_info, content_array, filename):
     add_table_of_contents(doc, book_info)
     add_content(doc, book_info, content_array)
     add_summary(doc, book_info)
+    add_sources(doc, book_info)
 
     # Save the document
     doc_path = f"docs/{filename}.docx"

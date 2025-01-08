@@ -3,11 +3,14 @@ from typing import Optional, List
 from bson import ObjectId
 from back.ebookgenV1.data.db_connection import mongodb
 from back.ebookgenV1.data.modules.books import Book
+import gridfs
 
 
 class BookRepository:
     def __init__(self):
         self.collection = mongodb.db["books"]
+        self.fs = gridfs.AsyncGridFS(mongodb.db)
+
         
     async def create_book(self, book_data: dict) -> str:
         book = Book(**book_data)

@@ -9,8 +9,10 @@ api_key = os.getenv('OPENAI_API_KEY')
 
 class ContentGenerator:
 
-    def __init__(self, model="gpt-3.5-turbo"):
+    def __init__(self,title, topic, language, age, gender, extra_info, n_chapters, n_subsections, model="gpt-3.5-turbo"):
         self.client = OpenAI(api_key=api_key)
+        self.title, self.topic, self.language, self.age, self.gender, self.extra_info, self.n_chapters, self.n_subsections = (
+            title, topic, language, age, gender, extra_info, n_chapters, n_subsections)
         self.model = model
         self.author_prompt = (
             "Imagine you're a celebrated author and editor with a rich background in a diverse array of fields. "
@@ -31,11 +33,11 @@ class ContentGenerator:
         )
         return response.choices[0].message.content
 
-    def generate_outline(self, title, topic, language, age, gender, extra_info, n_chapters, n_subsections):
+    def generate_outline(self):
         outline_prompt = (
-            f"Write an ebook named '{title}' in {language}. It is about {topic}. "
-            f"Our target audience is {age}-year-old {gender} who {extra_info}. "
-            f"Create an outline with {n_chapters} chapters, each containing {n_subsections} subsections. "
+            f"Write an ebook named '{self.title}' in {self.language}. It is about {self.topic}. "
+            f"Our target audience is {self.age}-year-old {self.gender} who {self.extra_info}. "
+            f"Create an outline with {self.n_chapters} chapters, each containing {self.n_subsections} subsections. "
             f"Include a 200-word description of the book, a summary, and a 'Sources for Further Reading' page. "
             f"Provide the response in JSON format with the style: "
             '{"ebook_title": "<title>", "target_audience": "<audience>", "description": "<description>", '
@@ -55,7 +57,7 @@ class ContentGenerator:
             print("Failed to decode JSON for outline. Check the response format.")
             return None
 
-    def generate_chapters_content(self, language, age, gender, extra_info):
+    def generate_chapters_content(self):
         chapters = self.book_info.get("chapters", [])
 
         for chapter in chapters:
@@ -64,10 +66,10 @@ class ContentGenerator:
             subsection_list = "\n".join(f"- {sub}" for sub in subsections)
 
             prompt = (
-                f"Expand on the following subsections of the chapter '{chapter_title}' in {language}: \n"
+                f"Expand on the following subsections of the chapter '{chapter_title}' in {self.language}: \n"
                 f"{subsection_list}\n\n"
                 f"Incorporate relevant statistics and real-world examples to illustrate key points. "
-                f"Use an engaging and informative narrative style tailored for {age}-year-old {gender} who {extra_info}. "
+                f"Use an engaging and informative narrative style tailored for {self.age}-year-old {self.gender} . "
                 f"Use clear, accessible language and weave in storytelling elements to captivate the audience. "
                 f"Provide the content for all subsections in a single JSON object with the format: "
                 '{"chapter_title": "<chapter_title>", "subsections": [{"title": "<subsection_title>", "content": "<subsection_content>"}]}'

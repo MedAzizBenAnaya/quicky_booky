@@ -9,7 +9,7 @@ class Book(BaseModel):
     user_id: str
     title: str
     category: str
-    file_url: str
+    file_id: str
     file_format: str
     file_size_mb: float
     published_date: Optional[datetime] | None

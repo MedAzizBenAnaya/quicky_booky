@@ -2,7 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.database import Database
 
 MONGO_URI = "mongodb://localhost:27017"
-DATABASE_NAME = "my_database"
+DATABASE_NAME = "quicky"
 
 class MongoDB:
     def __init__(self, uri: str, db_name: str):

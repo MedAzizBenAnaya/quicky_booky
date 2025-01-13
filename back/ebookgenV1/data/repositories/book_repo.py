@@ -2,7 +2,7 @@ import datetime
 from typing import Optional, List
 from bson import ObjectId
 from back.ebookgenV1.data.db_connection import mongodb
-from back.ebookgenV1.data.modules.books import Book
+from back.ebookgenV1.data.models.books import Book
 import gridfs
 
 
@@ -11,7 +11,6 @@ class BookRepository:
         self.collection = mongodb.db["books"]
         self.fs = gridfs.AsyncGridFS(mongodb.db)
 
-        
     async def create_book(self, book_data: dict) -> str:
         book = Book(**book_data)
         book_dict = book.dict()

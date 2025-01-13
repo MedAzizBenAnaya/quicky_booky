@@ -4,7 +4,7 @@ from bson import ObjectId
 from back.ebookgenV1.data.db_connection import mongodb
 from .book_repo import BookRepository  # Import BookRepository
 from .order_repo import OrderRepository  # Import OrderRepository
-from ..modules.users import User
+from ..models.users import User
 
 
 class UserRepository:

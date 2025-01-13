@@ -2,7 +2,7 @@ import datetime
 from typing import Optional, List
 from bson import ObjectId
 from back.ebookgenV1.data.db_connection import mongodb
-from back.ebookgenV1.data.modules.orders import Order
+from back.ebookgenV1.data.models.orders import Order
 
 
 class OrderRepository:
